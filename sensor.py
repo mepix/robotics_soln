@@ -41,7 +41,7 @@ class Sensor(Thread):
         self.sampling_rate = 0
         self.sensor_running = False
         self.connected = False
-        self.DOF = 6
+        self.DOF = 3
         self.sampling_rate = sampling_rate
         
 
@@ -86,7 +86,8 @@ class Sensor(Thread):
                 try:
                     while True:
                         # Recive the request for the number of samples
-                        sample_length = self.recive(500)
+                        sample_length = self.recive(500)  #TODO: why is this hardcoded at 500?
+                        print(f"sample_length: {sample_length}")
 
                         # Let's pretend we are really collecting samples
                         time.sleep(int(sample_length)/self.sampling_rate + self.overhead_delay + random.randint(0, 100)/100000)
@@ -101,7 +102,7 @@ class Sensor(Thread):
 
 def main(args=None):
     
-    sensor1 = Sensor('127.0.0.3', 10000, 2000, 0.001) # Define a sensor with 2000Hz sampling rate and 1ms delay
+    sensor1 = Sensor('127.0.0.1', 10000, 2000, 0.001) # Define a sensor with 2000Hz sampling rate and 1ms delay
     t1 = Thread(target = sensor1.run)
     t1.daemon = True
 
