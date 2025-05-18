@@ -7,10 +7,6 @@ import socket
 import numpy as np
 from std_msgs.msg import Float64MultiArray
 
-# from robotics_soln.msg import SensorVec3D
-
-from robotics_soln.msg import SensorVec3D
-
 class SensorService(Node):
 
     def __init__(self):
