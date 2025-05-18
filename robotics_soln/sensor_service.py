@@ -5,7 +5,7 @@ from rclpy.node import Node
 
 import socket
 import numpy as np
-from std_msgs.msg import String
+from std_msgs.msg import Float64MultiArray
 
 # from robotics_soln.msg import SensorVec3D
 
@@ -17,7 +17,7 @@ class SensorService(Node):
         super().__init__('sensor_service')
 
         # Create a publisher to publish the sensor data
-        self.publisher = self.create_publisher(String, 'sensor_data_raw', 10)   
+        self.publisher = self.create_publisher(Float64MultiArray, 'sensor_data_raw', 10)   
         self.sock = None
         self.timer_period = float(1/2000)  # seconds
         self.number_of_samples = 1
@@ -61,10 +61,10 @@ class SensorService(Node):
         self.sensor_data =  np.frombuffer(byte_data)
 
         # Publish the data in a msg
-        msg = String()
-        msg.data = str(self.sensor_data)
+        msg = Float64MultiArray()
+        msg.data = self.sensor_data
         self.publisher.publish(msg)
-        self.get_logger().info('Publishing: "%s"' % msg.data)
+        self.get_logger().info(f'Publishing: {msg.data}')
 
 
     def get_filtered_data(self, request, response):
