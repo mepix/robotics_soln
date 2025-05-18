@@ -22,6 +22,7 @@ setup(
         'console_scripts': [
             'sensor = robotics_soln.sensor:main',
             'sensor_service = robotics_soln.sensor_service:main',
+            'sensor_client = robotics_soln.sensor_client:main',
             'example = robotics_soln.example:main',
         ],
     },
