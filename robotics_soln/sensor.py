@@ -41,7 +41,7 @@ class Sensor(Thread):
         self.sampling_rate = 0
         self.sensor_running = False
         self.connected = False
-        self.DOF = 6
+        self.DOF = 3
         self.sampling_rate = sampling_rate
         
 
