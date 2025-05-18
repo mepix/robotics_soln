@@ -21,6 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'sensor = robotics_soln.sensor:main',
+            'sensor_service = robotics_soln.sensor_service:main',
             'example = robotics_soln.example:main',
         ],
     },
