@@ -21,6 +21,7 @@ class SensorService(Node):
         self.timer = self.create_timer(self.timer_period, self.poll_sensor_api)
 
         # Create a service to get filtered data
+        self.sensor_data = None
         # self.srv = self.create_service(GetFilteredData, 'get_filtered_data', self.get_filtered_data)
 
     def teardown(self):
@@ -53,11 +54,11 @@ class SensorService(Node):
 
         # Receive the data from the sensor
         byte_data = self.sock.recv(10000)
-        data =  np.frombuffer(byte_data)
+        self.sensor_data =  np.frombuffer(byte_data)
 
         # Publish the data in a msg
         msg = String()
-        msg.data = str(data)
+        msg.data = str(self.sensor_data)
         self.publisher.publish(msg)
         self.get_logger().info('Publishing: "%s"' % msg.data)
 
