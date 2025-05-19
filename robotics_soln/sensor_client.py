@@ -9,7 +9,7 @@ class SensorClient(Node):
 
     def __init__(self):
         super().__init__('sensor_client')
-        self.cli = self.create_client(FilterSensorVec3D, 'get_filtered_data')
+        self.cli = self.create_client(FilterSensorVec3D, 'sensor_0_filtered_data')
         while not self.cli.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
         self.req = FilterSensorVec3D.Request()

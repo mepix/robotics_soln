@@ -14,6 +14,15 @@ class SensorService(Node):
     def __init__(self):
         super().__init__('sensor_service')
 
+        # Handle Parameters
+        self.declare_parameter('addr', '127.0.0.1')
+        self.declare_parameter('port', 10000)
+        self.declare_parameter('id', 0)
+        self.addr = self.get_parameter('addr').get_parameter_value().string_value
+        self.port = self.get_parameter('port').get_parameter_value().integer_value
+        self.id = self.get_parameter('id').get_parameter_value().integer_value
+        filter_name = f"sensor_{self.id}_filtered_data"
+
         # Create a filter object
         self.filter = Filter(window_size=5, filter_type=FilterType.MOVING_AVG)
 
@@ -27,7 +36,7 @@ class SensorService(Node):
 
         # Create a service to get filtered data
         self.sensor_data = None
-        self.srv = self.create_service(FilterSensorVec3D, 'get_filtered_data', self.get_filtered_data)
+        self.srv = self.create_service(FilterSensorVec3D, filter_name, self.get_filtered_data)
 
     def teardown(self):
         # Close the socket connection
@@ -41,7 +50,7 @@ class SensorService(Node):
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
         # Connect the socket to the port where the server is listening
-        server_address = ('127.0.0.3', 10000)
+        server_address = (self.addr, self.port)
         print('connecting to {} port {}'.format(*server_address))
         self.sock.connect(server_address)
 
